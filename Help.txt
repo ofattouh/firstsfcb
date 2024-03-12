@@ -1,0 +1,11 @@
+## Helpful Docs
+===============
+
+# Run App
+=========
+>npm run dev          // Start Development Server, run Vite Build tool & Open: http://localhost:5173/
+>npm init vue@latest            // Create Vue 3 App
+>yarn install                   // will install all package.json dependancies
+>yarn add <package>
+>yarn remove <package>
+>yarn add --dev <package>       // Install package as Dev Dependency
