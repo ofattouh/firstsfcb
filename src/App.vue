@@ -28,6 +28,14 @@
       removeItem() {
         this.foods.splice(1,1); // At position 1 inside array, remove 1 element
         console.log('\nSpliced: ', this.foods);
+      },
+      receiveEmit(foodName) {
+        let foundFood = this.foods.find(
+          food => food.name === foodName
+        );
+
+        foundFood.favorite = !foundFood.favorite;
+        // console.log('\nreceiveEmit-foundFood: ', foundFood);
       }
     }
   }
@@ -36,7 +44,11 @@
 <template>
   <h1>Food</h1>
 
-  <h3>Component: FoodItem.vue</h3>
+  <!-- 
+    ================================================================================
+  -->
+
+  <h2>Component: FoodItem.vue</h2>
 
   <p>My favorite food has a diploma image attached to it.</p>
   <p>Food description for the rice component is not provided so the default value is used instead.</p>
@@ -60,7 +72,11 @@
     <food-item food-name="Rice"></food-item>
   </div>
 
-  <h3>Component: FoodItemVFor.vue</h3>
+  <!-- 
+    ================================================================================
+  -->
+
+  <h2>Component: FoodItemVFor.vue</h2>
 
   <p>Components created with v-for based on an array.</p>
   <p>Food items are generated with v-for from the 'foods' array.</p>
@@ -88,6 +104,43 @@
       :food-name="x.name"
       :food-desc="x.desc"
       :is-favorite="x.favorite"/>
+  </div>
+
+  <!-- 
+    ================================================================================
+  -->
+
+  <h2>Component: FoodItemEmit.vue</h2>
+
+  <!-- 
+    Listen to emit event with shorthand @ instead of v-on: inside App.vue where FoodItemEmit 
+    component is created. When custom 'toggle-favorite' event happens, we need to create 
+    'receiveEmit' method inside App.vue to test that this event happened
+  -->
+
+  <p>Click on 'Toggle Favorite' button to emit event from 'FoodItemEmit.vue' to 'App.vue' with 
+    built-in Vue method '$emit()'. This emitted event also contains food item name.</p>
+
+  <p>'Toggle Favorite' button on child component: "FoodItemEmit.vue" emits an event to parent 
+    component: "App.vue". Favorite status is modified inside "App.vue", and updated status is sent
+    back to child "FoodItemEmit" component so that image is toggled to reflect favorite status.</p>
+
+  <p>Props must be declared inside the component, while emits are just recommended to be documented
+     by using the Vue 'emits' option</p>
+
+  <mark>The result is the same as what was done for child component: "FoodItem.vue", <b>EXCEPT 
+    favorite status is now modified correctly where it should be inside parent component: "App.vue"
+    where it lives</b> instead of inside child component: "FoodItemEmit.vue".</mark>
+
+  <div id="wrapper">
+    <food-item-emit
+      v-for="x in foods"
+      :key="x.name"
+      :food-name="x.name"
+      :food-desc="x.desc"
+      :is-favorite="x.favorite"
+      @toggle-favorite="receiveEmit"
+    />
   </div>
 
 </template>
