@@ -18,7 +18,9 @@
           { name: 'Cake',
             desc: 'Cake is something sweet that tastes good.',
             favorite: false }
-        ]
+        ],
+        newItem: '',
+        items: ['Buy apples','Make pizza','Mow the lawn']
       };
     },
     methods: {
@@ -36,6 +38,10 @@
 
         foundFood.favorite = !foundFood.favorite;
         // console.log('\nreceiveEmit-foundFood: ', foundFood);
+      },
+      addItem() {
+        this.items.push(this.newItem),
+        this.newItem = '';
       }
     }
   }
@@ -143,6 +149,58 @@
     />
   </div>
 
+  <!-- 
+    ================================================================================
+  -->
+
+  <h2>Component: FoodItemFallthroughAttributes.vue</h2>
+
+  <p>
+    To see the point of this section, that properties can fall through to the root element 
+    inside the template of our component, we can give the list items some styling from App.vue
+  </p>
+
+  <p>In this example, the style attribute falls through from App.vue into the li element 
+    which is the components root element
+  </p>
+
+  <p>
+    If 'class' or 'style' attributes are already set, and 'class' or 'style' attributes also 
+    comes from the parent as fallthrough attributes, the attributes will be merged
+  </p>
+
+  <p>
+    In this example, the style attribute falls through from App.vue into the li element 
+    which is the components root element, and merges with the existing style attribute
+  </p>
+
+  <p>
+    If we have more than one element on the root level of the component, it is no longer 
+    clear which element the attributes should fall through to. To define which root element 
+    gets the fallthrough attributes we can mark the element with the built-in $attrs object
+  </p>
+
+  <p>
+    In this example, there are three elements on the root level of the component so we use 
+    v-bind="$attrs" to define which element should receive the fallthrough style attribute 
+    that gives green background-color
+  </p>
+
+  <h3>Todo List</h3>
+
+  <ul>
+    <food-item-fallthrough-attributes
+      v-for="x in items"
+      :key="x"
+      :item-name="x"
+      style="background-color: lightgreen;"
+    />
+  </ul>
+
+  <input placeholder="Add things to do here" v-model="newItem" @keydown.enter="addItem">
+  <button @click="addItem">Add</button>
+
+
 </template>
 
 <style>
@@ -172,5 +230,11 @@
   #warning {
     font-weight: bold ;
     color: rgb(144, 12, 12);
+  }
+
+  ul {
+    width: 150px;
+    list-style-type: none;
+    padding-left: 10px;
   }
 </style>
