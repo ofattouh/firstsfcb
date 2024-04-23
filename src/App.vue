@@ -200,6 +200,31 @@
   <input placeholder="Add things to do here" v-model="newItem" @keydown.enter="addItem">
   <button @click="addItem">Add</button>
 
+  <!-- 
+    ================================================================================
+  -->
+
+  <h2>Components: ScopedStylingCompOne.vue & GlobalStylingCompTwo.vue</h2>
+
+  <p>
+    Styling defined inside the "style" tag in a component, or in App.vue, is available globally
+    to all components. To keep the styling limited locally to just the component, we use the 
+    scope attribute on that component: "style scoped"
+  </p>
+
+  <p>
+    To avoid that styling in one component affects the styling of elements in other components 
+    we use the 'scoped' attribute on the "style" tag: The "style" tag in ScopedStylingCompOne.vue 
+    is given the scoped attribute
+  </p>
+
+  <div>
+    <h3>Global & Scoped Styling</h3>
+    <p>This p-tag belongs to 'App.vue'</p>
+    <scoped-styling-comp-one />
+    <global-styling-comp-two />
+  </div>
+
 
 </template>
 
