@@ -1,4 +1,6 @@
 <script>
+  import LocalCompOne from './components/LocalCompOne.vue';
+
   export default {
     data() {
       return {
@@ -43,6 +45,10 @@
         this.items.push(this.newItem),
         this.newItem = '';
       }
+    },
+    components: {
+      // eslint-disable-next-line vue/no-unused-components
+      'local-comp-one': LocalCompOne
     }
   }
 </script>
@@ -225,14 +231,50 @@
     <global-styling-comp-two />
   </div>
 
+  <!-- 
+    ================================================================================
+  -->
+
+  <h2>Global & Local Components: GlobalCompOne.vue, GlobalCompTwo.vue & LocalCompOne.vue</h2>
+
+  <p>
+    Components can be made to be local, meaning that they are only accessible inside a specific *.vue file
+  </p>
+
+  <p>
+    We can include a component directly in the "script" tag in a *.vue file instead of 
+    including it inside main.js. If we include a component directly in a *.vue file, the 
+    component becomes accessible only locally in that file
+  </p>
+
+  <p>
+    To make LocalCompOne.vue local to App.vue, and only accessible there, remove it from main.js
+    and include LocalCompOne.vue directly in the "script" tag of App.vue
+  </p>
+
+  <div>
+    <h3>Global Components</h3>
+    <p>App.vue</p>
+    <p>The GlobalCompOne.vue component is used inside both App.vue and GlobalCompTwo.vue.</p>
+    <global-comp-one /> <br>
+    <global-comp-two />
+  </div>
+
+  <div>
+    <h3>Local Component</h3>
+    <p>The LocalCompOne.vue component is a local component and can only be used inside App.vue.</p>
+    <local-comp-one /> <br>
+    <global-comp-two />
+  </div>
 
 </template>
 
 <style>
  #app > div {
     border: solid black 1px;
-    margin: 10px;
-    padding: 10px;
+    margin: 20px;
+    padding: 20px;
+    display: inline-block;
   }
 
   #wrapper {
@@ -261,5 +303,13 @@
     width: 150px;
     list-style-type: none;
     padding-left: 10px;
+  }
+
+  .globalCompOneDiv, .localCompOneDiv {
+    background-color: lightgreen;
+  }
+
+  .globalCompTwoDiv {
+    background-color: lightcoral;
   }
 </style>
