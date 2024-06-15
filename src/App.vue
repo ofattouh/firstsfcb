@@ -7,19 +7,24 @@
         foods: [
           { name: 'Apples',
             desc: 'Apples are a type of fruit that grow on trees.',
-            favorite: true },
+            favorite: true,
+            url: 'img_apple.svg' },
           { name: 'Pizza',
             desc: 'Pizza has a bread base with tomato sauce, cheese, and toppings on top.',
-            favorite: false },
+            favorite: false,
+            url: 'img_pizza.svg' },
           { name: 'Rice',
             desc: 'Rice is a type of grain that people like to eat.',
-            favorite: false },
+            favorite: false,
+            url: 'img_rice.svg' },
           { name: 'Fish',
             desc: 'Fish is an animal that lives in water.',
-            favorite: true },
+            favorite: true,
+            url: 'img_fish.svg' },
           { name: 'Cake',
             desc: 'Cake is something sweet that tastes good.',
-            favorite: false }
+            favorite: false,
+            url: 'img_cake.svg' }
         ],
         newItem: '',
         items: ['Buy apples','Make pizza','Mow the lawn']
@@ -267,10 +272,141 @@
     <global-comp-two />
   </div>
 
+  <!-- 
+    ================================================================================
+  -->
+
+  <h2>Component: SlotComp.vue</h2>
+
+  <p class="slot">
+    Slots allow for more flexible and reusable components to send content from the parent into the template tag of 
+    child component. The slot tag acts as a placeholder for the content, so that after the application is built the 
+    slot tag will be replaced by the content sent to it
+  </p>
+
+  <div>
+    <p>We send 'Hello World!' as content to the slot tag inside the SlotComp.vue component from App.vue.</p>
+    <slot-comp>Slot Component: Hello World</slot-comp>
+  </div>
+
+  <p class="slot">
+    Slots can also be used to wrap around larger chunks of dynamic html content to get a card-like appearance.
+    Earlier we have sent data as props to create content inside components, we can also send the HTML content 
+    directly inside the slot tag as it is
+  </p>
+
+  <p>We create card-like div boxes from the foods array</p>
+  <div id="wrapper">
+    <slot-card-comp v-for="x in foods" v-bind:key="x">
+      <img v-bind:src="x.url">
+      <h4>{{x.name}}</h4>
+      <p>{{x.desc}}</p>
+    </slot-card-comp>
+  </div>
+
+  <p>Re-usable Slot Cards</p>
+  <p class="slot">We create card-like div boxes from foods array</p>
+  <p class="slot">We also create card-like footer by reusing same component</p>
+
+  <div id="wrapper">
+    <slot-card-comp v-for="x in foods" v-bind:key="x">
+      <img v-bind:src="x.url">
+      <h4>{{x.name}}</h4>
+    </slot-card-comp>
+  </div>
+
+  <footer>
+    <slot-card-comp>
+      <h4>Footer</h4>
+    </slot-card-comp>
+  </footer>
+
+  <p>Slots Fallback Content</p>
+  <p class="slot">A component without content provided can have fallback content in the slot tag</p>
+
+  <div id="wrapper">
+    <slot-fallback-comp>
+      <!-- Empty -->
+    </slot-fallback-comp>
+
+    <slot-comp>
+      <h4>This content is provided from App.vue</h4>
+    </slot-comp>
+  </div>
+
+  <!-- 
+    ================================================================================
+  -->
+
+  <h2>Component: Vue v-slot</h2>
+
+  <p>We need the v-slot directive to refer to named slots.</p>
+  <p>With two slots in a component, we can see that the content simply appears inside both places bceause we
+    didn't use v-slots and named slots.</p>
+
+  <p>This component has two &lt;div&gt; tags with one &lt;slot&gt; in each.</p>
+  <slot-comp>'Hello!'</slot-comp>
+
+  <p>If we have more than one slot tag in a component, but we want to control in which slot tag the content 
+    should appear, we need to name the slots and use v-slot to send the content to the right place.</p>
+  <p>To be able to differentiate the slots we give the slots different names.</p>
+
+  <p>The component has two div tags with one slot in each.</p>
+  <div id="wrapper">
+    <v-slot-comp v-slot:bottomSlot>'Hello!'</v-slot-comp>
+  </div>
+
+  <p>If you have a slot tag with no name, that slot tag will be default for components marked with v-slot:default,
+     or components that are not marked with v-slot tag.</p>
+
+  <p>The component has two div tags with one slot in each.</p>
+  <p>We can also mark content with the default value v-slot:default to make it even more clear that the content 
+    belongs to the default slot</p>
+
+  <div id="wrapper">
+    <v-slot-default-comp>'Default slot'</v-slot-default-comp>
+  </div>
+
+  <div id="wrapper">
+    <v-slot-default-comp v-slot:default>'Default slot (Adding attribute: v-slot:default is more clear)'</v-slot-default-comp>
+  </div>
+
+  <p>v-slot directive can be used as an attribute in the component tag.</p>
+  <p>v-slot can also be used in template tag to direct larger parts of content to a certain slot tag because the 
+    template tag is not rendered, it is just a placeholder for the rendered HTML content.</p>
+
+  <p>This component has two div tags with one slot in each</p>
+  <div id="wrapper">
+    <v-slot-template>
+      <template v-slot:bottomSlot>
+        <h4>To the bottom slot!</h4>
+        <p>This p tag and h4 tag above are directed to bottom slot with v-slot directive used on template tag</p>
+      </template>
+
+      <p>This goes into the default slot</p>
+    </v-slot-template>
+  </div>
+
+  <p>The shorthand for v-slot: is #</p>
+  <div id="wrapper">
+    <p>The component has two div tags with one slot in each.</p>
+    <v-slot-shorthand #topSlot>'Hello!'</v-slot-shorthand>
+  </div>
+
+  <!-- 
+    ================================================================================
+  -->
+
 </template>
 
 <style>
- #app > div {
+
+  h2 {
+    font-size: 30px;
+    font-weight: bolder;
+  }
+
+  #app > div {
     border: solid black 1px;
     margin: 20px;
     padding: 20px;
@@ -280,6 +416,8 @@
   #wrapper {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-around;
+    width: 30%;
   }
 
   #wrapper > div {
@@ -311,5 +449,19 @@
 
   .globalCompTwoDiv {
     background-color: lightcoral;
+  }
+
+  p.slot {
+    width: 60%;
+  }
+
+  #wrapper img {
+    display: block; 
+    margin: auto; 
+    width: 60%;
+  }
+
+  footer > div {
+    background-color: lightpink;
   }
 </style>
