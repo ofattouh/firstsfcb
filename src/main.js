@@ -31,6 +31,8 @@ import DynamicCompTwoPersistent from './components/DynamicCompTwoPersistent.vue'
 import DynamicCompOnePersistentIncludeExclude from './components/DynamicCompOnePersistentIncludeExclude.vue'
 import DynamicCompTwoPersistentIncludeExclude from './components/DynamicCompTwoPersistentIncludeExclude.vue'
 import DynamicCompThreePersistentIncludeExclude from './components/DynamicCompThreePersistentIncludeExclude.vue'
+import TeleportComp from './components/TeleportComp.vue'
+import TeleportCompTwo from './components/TeleportCompTwo.vue'
 
 const app = createApp(App)
 
@@ -65,5 +67,7 @@ app.component('dynamic-comp-two-persistent', DynamicCompTwoPersistent)
 app.component('dynamic-comp-one-persistent-include-exclude', DynamicCompOnePersistentIncludeExclude)
 app.component('dynamic-comp-two-persistent-include-exclude', DynamicCompTwoPersistentIncludeExclude)
 app.component('dynamic-comp-three-persistent-include-exclude', DynamicCompThreePersistentIncludeExclude)
+app.component('teleport-comp', TeleportComp)
+app.component('teleport-comp-two', TeleportCompTwo)
 
 app.mount('#app')

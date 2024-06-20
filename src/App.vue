@@ -126,9 +126,9 @@
 </script>
 
 <template>
-  <br><hr style="height:3px;border-width:0;background-color:lightblue"><br>
-  <h1>Food App built with Vue.js 3.X</h1>
-  <br><hr style="height:3px;border-width:0;background-color:lightblue">
+  <br><hr style="height:4px;border-width:0;background-color:lightblue"><br>
+  <h1 class="mainHeader">Food App built with Vue.js 3.X</h1>
+  <br><hr style="height:4px;border-width:0;background-color:lightblue">
 
   <!-- 
     ================================================================================
@@ -694,6 +694,31 @@
   -->
 
   <br><br><hr><br><h2>Vue Teleport</h2>
+  
+  <p class="slot">To move some content to somewhere else in the DOM structure we use the Vue Teleport tag 
+    around the content and the 'to' attribute to define where to move it.</p>
+
+  <div id="wrapper">
+    <p>TeleportComp Component</p>
+    <p>With &lt;teleport to="body"&gt; we move the red &lt;div&gt; from inside the component to the body tag.</p>
+    <teleport-comp></teleport-comp>
+  </div>
+
+  <p class="slot">Even though teleported div tag is no longer inside the component after compilation. 
+    Relevant code inside component in script and style tags still works for teleported moved content.</p>
+
+   <div id="wrapper">
+    <p>TeleportCompTwo Component</p>
+    <p>With &lt;teleport to="body"&gt; we move the lightpink/lightgreen &lt;div&gt; from inside the component 
+      to the root of the body tag.</p>
+    <teleport-comp-two></teleport-comp-two>
+  </div>
+
+  <!-- 
+    ================================================================================
+  -->
+
+  <br><br><hr><br><h2>Vue Templates</h2>
 
 
 </template>
@@ -707,6 +732,10 @@
   h2 {
     font-size: 30px;
     font-weight: bolder;
+  }
+
+  h1.mainHeader {
+    margin-left: 30%;
   }
 
   #app > div {
