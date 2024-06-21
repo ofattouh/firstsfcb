@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 
+// Declare Components
 import FoodItem from './components/FoodItem.vue'
 import FoodItemVFor from './components/FoodItemVFor.vue'
 import FoodItemEmit from './components/FoodItemEmit.vue'
@@ -33,6 +34,11 @@ import DynamicCompTwoPersistentIncludeExclude from './components/DynamicCompTwoP
 import DynamicCompThreePersistentIncludeExclude from './components/DynamicCompThreePersistentIncludeExclude.vue'
 import TeleportComp from './components/TeleportComp.vue'
 import TeleportCompTwo from './components/TeleportCompTwo.vue'
+import TemplateRefComp from './components/TemplateRefComp.vue'
+import TemplateRefComp2 from './components/TemplateRefComp2.vue'
+import TemplateRefComp3 from './components/TemplateRefComp3.vue'
+import TemplateRefComp4 from './components/TemplateRefComp4.vue'
+
 
 const app = createApp(App)
 
@@ -69,5 +75,9 @@ app.component('dynamic-comp-two-persistent-include-exclude', DynamicCompTwoPersi
 app.component('dynamic-comp-three-persistent-include-exclude', DynamicCompThreePersistentIncludeExclude)
 app.component('teleport-comp', TeleportComp)
 app.component('teleport-comp-two', TeleportCompTwo)
+app.component('template-ref-comp', TemplateRefComp)
+app.component('template-ref-comp-2', TemplateRefComp2)
+app.component('template-ref-comp-3', TemplateRefComp3)
+app.component('template-ref-comp-4', TemplateRefComp4)
 
 app.mount('#app')

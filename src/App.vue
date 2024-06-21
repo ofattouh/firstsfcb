@@ -134,7 +134,24 @@
     ================================================================================
   -->
 
-  <br><h2>Component: FoodItem.vue</h2>
+  <br><h2>Vue Templates</h2>
+
+  <p class="slot">To make it easier to handle larger projects, and get a better development environment, we write our Vue code 
+    inside Single File Components (SFCs), or *.vue files which only consist of three parts:</p>
+
+  <div id="wrapper">
+    <ol>
+      <li><b>&lt;template&gt; Tag:</b> For HTML Content</li>
+      <li><b>&lt;script&gt; Tag:</b> For Vue JS Code</li>
+      <li><b>&lt;style&gt; Tag:</b> For CSS Styling</li>
+    </ol>
+  </div>
+
+  <!-- 
+    ================================================================================
+  -->
+
+  <br><br><hr><h2>Component: FoodItem.vue</h2>
 
   <p>My favorite food has a diploma image attached to it.</p>
   <p>Food description for the rice component is not provided so the default value is used instead.</p>
@@ -700,7 +717,7 @@
 
   <div id="wrapper">
     <p>TeleportComp Component</p>
-    <p>With &lt;teleport to="body"&gt; we move the red &lt;div&gt; from inside the component to the body tag.</p>
+    <p>With &lt;teleport to="body"&gt; we move the red &lt;div&gt; from inside the component to the body Tag:</p>
     <teleport-comp></teleport-comp>
   </div>
 
@@ -710,7 +727,7 @@
    <div id="wrapper">
     <p>TeleportCompTwo Component</p>
     <p>With &lt;teleport to="body"&gt; we move the lightpink/lightgreen &lt;div&gt; from inside the component 
-      to the root of the body tag.</p>
+      to the root of the body Tag:</p>
     <teleport-comp-two></teleport-comp-two>
   </div>
 
@@ -718,7 +735,38 @@
     ================================================================================
   -->
 
-  <br><br><hr><br><h2>Vue Templates</h2>
+  <br><br><hr><br><h2>Vue Template Refs</h2>
+
+  <p>Vue Template Refs are used to refer to specific DOM elements. When the ref attribute is set on an HTML tag, 
+    the resulting DOM element is added to the $refs object. We can use the ref attribute and the $refs object in 
+    Vue as an alternative to methods in plain JavaScript like getElementById() or querySelector().</p>
+  
+  <p>In this example, HTML tags with ref attribute will be added to $refs object and can be reached later from 
+    inside the &lt;script tag.&gt;</p>
+
+  <p>In this example, the text inside p element is changed.</p>
+
+  <div id="wrapper">
+    <template-ref-comp></template-ref-comp>
+  </div>
+
+  <p>In this example, we copy the value of one tag inside another tag using the $refs object.</p>
+
+  <div id="wrapper">
+    <template-ref-comp-2></template-ref-comp-2>
+  </div>
+
+  <p>In this example, We can go further into an HTML element added to the $refs object to access any property.</p>
+  
+  <div id="wrapper">
+    <template-ref-comp-3></template-ref-comp-3>
+  </div>
+
+  <p>HTML elements created with v-for, with the ref attribute, will be added to the $refs object as an array.</p>
+  
+  <div id="wrapper">
+    <template-ref-comp-4></template-ref-comp-4>
+  </div>
 
 
 </template>
