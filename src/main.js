@@ -38,7 +38,18 @@ import TemplateRefComp from './components/TemplateRefComp.vue'
 import TemplateRefComp2 from './components/TemplateRefComp2.vue'
 import TemplateRefComp3 from './components/TemplateRefComp3.vue'
 import TemplateRefComp4 from './components/TemplateRefComp4.vue'
-
+import HookBeforeCreateComp from './components/HookBeforeCreateComp.vue'
+import HookCreatedComp from './components/HookCreatedComp.vue'
+import HookMountedComp from './components/HookMountedComp.vue'
+import HookMountedComp2 from './components/HookMountedComp2.vue'
+import HookBeforeUpdateComp from './components/HookBeforeUpdateComp.vue'
+import HookUpdatedComp from './components/HookUpdatedComp.vue'
+import HookBeforeUnmountComp from './components/HookBeforeUnmountComp.vue'
+import HookUnmountedComp from './components/HookUnmountedComp.vue'
+import HookErrorCapturedComp from './components/HookErrorCapturedComp.vue'
+import HookErrorCapturedComp2 from './components/HookErrorCapturedComp2.vue'
+import HookActivatedNotActivatedComp from './components/HookActivatedNotActivatedComp.vue'
+import HookActivatedNotActivatedComp2 from './components/HookActivatedNotActivatedComp2.vue'
 
 const app = createApp(App)
 
@@ -79,5 +90,17 @@ app.component('template-ref-comp', TemplateRefComp)
 app.component('template-ref-comp-2', TemplateRefComp2)
 app.component('template-ref-comp-3', TemplateRefComp3)
 app.component('template-ref-comp-4', TemplateRefComp4)
+app.component('hook-before-create-comp', HookBeforeCreateComp)
+app.component('hook-created-comp', HookCreatedComp)
+app.component('hook-mounted-comp', HookMountedComp)
+app.component('hook-mounted-comp-2', HookMountedComp2)
+app.component('hook-before-update-comp', HookBeforeUpdateComp)
+app.component('hook-updated-comp', HookUpdatedComp)
+app.component('hook-before-unmount-comp', HookBeforeUnmountComp)
+app.component('hook-unmounted-comp', HookUnmountedComp)
+app.component('hook-error-captured-comp', HookErrorCapturedComp)
+app.component('hook-error-captured-comp-2', HookErrorCapturedComp2)
+app.component('hook-activated-not-activated-comp', HookActivatedNotActivatedComp)
+app.component('hook-activated-not-activated-comp-2', HookActivatedNotActivatedComp2)
 
 app.mount('#app')

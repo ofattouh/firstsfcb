@@ -34,7 +34,17 @@
         toggleValue4: true,
         toggleValue5: true,
         compNbr: 1,
-        compName: 'dynamic-comp-one-persistent-include-exclude'
+        compName: 'dynamic-comp-one-persistent-include-exclude',
+        activeHookBeforeCreateComp: false,
+        activeHookCreatedComp: false,
+        activeHookMountedComp: false,
+        activeHookMountedComp2: false,
+        activeHookBeforeUpdateComp: true,
+        activeHookUpdatedComp: true,
+        activeHookBeforeUnmountComp: true,
+        activeHookUnmountedComp: true,
+        activeHookActivatedNotActivatedComp: false,
+        activeHookActivatedNotActivatedComp2: false,
       };
     },
     methods: {
@@ -59,7 +69,6 @@
       }
     },
     components: {
-      // eslint-disable-next-line vue/no-unused-components
       'local-comp-one': LocalCompOne
     },
     watch: {
@@ -120,7 +129,36 @@
         else {
           return 'dynamic-comp-three-persistent-include-exclude'
         }
+      },
+      btnHookBeforeUnmountCompText() {
+        if(this.activeHookBeforeUnmountComp) {
+          return 'Remove HookBeforeUnmountComp component'
+        }
+        else {
+          return 'Add HookBeforeUnmountComp component'
+        }
+      },
+      btnHookUnmountedCompText() {
+        if(this.activeHookUnmountedComp) {
+          return 'Remove HookUnmountedComp component'
+        }
+        else {
+          return 'Add HookUnmountedComp component'
+        }
       }
+    },
+    // Vue Life Cycle Hooks
+    beforeUpdate() {
+      this.$refs.divHookBeforeUpdate.innerHTML += "<li>beforeUpdate: happened just before 'updated' hook and without causing infinite loop.</li>";
+    },
+    updated() {
+      console.log("Some component is updated!");
+    },
+    errorCaptured(error, compError, errorSrcType) {
+      console.log("Custom Error Message: error is thrown from some component using errorCaptured Hook");
+      console.log("Error: ", error);
+      console.log("Component Error: ", compError);
+      console.log("Error Source Type: ", errorSrcType);
     }
   }
 </script>
@@ -768,6 +806,295 @@
     <template-ref-comp-4></template-ref-comp-4>
   </div>
 
+  <!-- 
+    ================================================================================
+  -->
+
+  <br><br><hr><br><h2>Vue Lifecycle Hooks</h2>
+
+  <p>Lifecycle hooks are certain stages in the lifecycle of a component where we can add code to do things.
+    Every time a component reaches a new stage in its lifecycle, a specific function runs, and we can add code to that 
+    function.</p>
+
+  <p>Such functions are called lifecycle hooks, because we can "hook" our code into that stage.</p>
+
+  <p>They are: 
+    <ol>
+      <li>beforeCreate</li>
+      <li>created</li>
+      <li>beforeMount</li>
+      <li>mounted</li>
+      <li>beforeUpdate</li>
+      <li>updated</li>
+      <li>beforeUnmount</li>
+      <li>unmounted</li>
+      <li>errorCaptured</li>
+      <li>renderTracked</li>
+      <li>renderTriggered</li>
+      <li>activated</li>
+      <li>deactivated</li>
+      <li>serverPrefetch</li>
+    </ol>
+  </p>
+
+  <p>The beforeCreate lifecycle hook happens before the component is initialized, so this is before Vue has set up 
+    the component's data, computed properties, methods, and event listeners.</p>
+
+  <p>The beforeCreate hook can be used for example to set up a global event listener, but we should avoid trying to 
+    access elements that belong to the component from the beforeCreate lifecycle hook, such as data, watchers and 
+    methods, because they are not created yet at this stage. Also, it does not make sense to access DOM elements 
+    from the beforeCreate lifecycle hook, because they are not created until after the component is mounted.</p>
+
+  <div id="wrapper">
+    <p>The 'beforeCreate' Lifecycle Hook</p>
+    <p>We can see the console.log() message from 'beforeCreate' lifecycle hook, but there is no effect from the 
+      text change we try to do to the Vue data property, because the Vue data property is not created yet.</p>
+
+    <button @click="this.activeHookBeforeCreateComp = !this.activeHookBeforeCreateComp">
+      Add/Remove Component
+    </button>
+
+    <div>
+      <hook-before-create-comp v-if="activeHookBeforeCreateComp"></hook-before-create-comp>
+    </div>
+  </div>
+
+  <p>The created lifecycle hook happens after the component is initialized, so Vue has already set up the component 
+    data, computed properties, methods, and event listeners. We should avoid trying to access DOM elements from the 
+    created lifecycle hook, because DOM elements are not accessible until the component is mounted. </p>
+    
+  <p>The created lifecycle hook can be used to Fetch Data with HTTP requests, or set up initial Data values</p>
+
+  <div id="wrapper">
+    <p>The 'created' Lifecycle Hook</p>
+    <p>We can see the console.log() message from 'created' lifecycle hook, and the text change we try to do to 
+      Vue data property works, because the Vue data property is already created at this stage.</p>
+
+    <button @click="this.activeHookCreatedComp = !this.activeHookCreatedComp">Add/Remove Component</button>
+
+    <div>
+      <hook-created-comp v-if="activeHookCreatedComp"></hook-created-comp>
+    </div>
+  </div>
+
+  <p>The beforeMount lifecycle hook happens right before the component is mounted, so just before the component is 
+    added to the DOM. We should avoid trying to access DOM elements from the beforeMount lifecycle hook, because 
+    DOM elements are not accessible until the component is mounted.</p>
+    
+  <p><span id="error">Using The beforeMount lifecycle hook, if we try to access DOM element: this.$refs.pEl.innerHTML,
+    this will generates an error in the browser console because the pEl element will still be undefined</span></p>
+
+  <br><br>
+  <p>The mounted() lifecycle hook is called Right after a component is added to the DOM tree, and we can add code 
+    to that stage. This is the first chance we can access DOM elements, like using the ref attribute and $refs object.
+    <br><br><b>Note: The mounted stage happens AFTER the the component is added to the DOM</b>
+  </p>
+
+  <div id="wrapper">
+    <p>The 'mounted' Lifecycle Hook</p>
+
+    <button @click="this.activeHookMountedComp = !this.activeHookMountedComp">
+      Create component
+    </button>
+
+    <div>
+      <hook-mounted-comp v-if="activeHookMountedComp"></hook-mounted-comp>
+    </div>
+  </div>
+
+  <p>The 'mounted' Lifecycle Hook 2</p>
+
+  <div id="wrapper">
+    <button @click="this.activeHookMountedComp2 = !this.activeHookMountedComp2">
+      Create component
+    </button>
+  
+    <div>
+      <hook-mounted-comp-2 v-if="activeHookMountedComp2"></hook-mounted-comp-2>
+    </div>
+  </div>
+
+  <p>The beforeUpdate lifecycle hook is called whenever there is a change in the data of our component, but before 
+    the update is rendered to the screen. The beforeUpdate lifecycle hook happens right before the updated lifecycle 
+    hook. Something important about the beforeUpdate hook is that we can do changes to the application without it 
+    triggering a new update, so we avoid the otherwise infinite loop. <span id="error">That is the reason for not 
+    doing changes to the application in the updated lifecycle hook, because with that hook, an infinite loop will 
+    be created.</span></p>
+
+  <div id="wrapper">
+    <p>The 'beforeUpdate' Lifecycle Hook</p>
+    <p>Whenever there is change inside page, application is 'updated' and 'beforeUpdate' hook happens just before that.</p>
+    <p id="error">It is safe to modify our page in the 'beforeUpdate' hook like in this example, but if we modify 
+      our page inside the 'updated' hook, we will generate an infinite loop.</p>
+
+    <button @click="this.activeHookBeforeUpdateComp = !this.activeHookBeforeUpdateComp">
+      Add/Remove Component
+    </button>
+  
+    <div>
+      <hook-before-update-comp v-if="activeHookBeforeUpdateComp"></hook-before-update-comp>
+    </div>
+
+    <ol ref="divHookBeforeUpdate"></ol>
+  </div>
+
+  <p>The updated lifecycle hook is called after component has updated its DOM tree.</p>
+
+  <p><mark>Note: We must be careful not to modify the page itself when the updated lifecycle hook is called, 
+    because then the page will update again and again, creating an infinite loop.</mark></p>
+
+  <div id="wrapper">
+    <p>Whenever there is a change inside the page, the application is updated and the updated() function is called. 
+      In this example we use console.log() in the updated() function that runs when our application is updated.</p>
+
+    <button @click="this.activeHookUpdatedComp = !this.activeHookUpdatedComp">
+      Add/Remove component
+    </button>
+  
+    <div>
+      <hook-updated-comp v-if="activeHookUpdatedComp"></hook-updated-comp>
+    </div>
+  </div>
+
+  <p>The beforeUnmount lifecycle hook is called just before a component is removed from the DOM. We can still 
+    access component elements in the DOM in the beforeUnmount hook.</p>
+
+  <div id="wrapper">
+    <p>In this example, inside the console.log() message, the text inside the p-tag is still accessible inside the 
+      'beforeUnmount' hook, right before the 'unmount' hook.</p>
+
+    <button @click="this.activeHookBeforeUnmountComp = !this.activeHookBeforeUnmountComp">
+      {{ btnHookBeforeUnmountCompText }}
+    </button>
+  
+    <div>
+      <hook-before-unmount-comp v-if="activeHookBeforeUnmountComp"></hook-before-unmount-comp>
+    </div>
+  </div>
+
+  <p>The unmounted lifecycle hook is called after a component is removed from the DOM. It can be used to remove 
+    event listeners or cancelling timers or intervals.</p>
+    
+  <p>Note: The unmounted stage happens AFTER the the component is removed from the DOM</p>
+
+  <div id="wrapper">
+    <button @click="this.activeHookUnmountedComp = !this.activeHookUnmountedComp">
+      {{ btnHookUnmountedCompText }}
+    </button>
+  
+    <div>
+      <hook-unmounted-comp v-if="activeHookUnmountedComp"></hook-unmounted-comp>
+    </div>
+  </div>
+
+  <p>The errorCaptured lifecycle hook is called when an error happens in a child/descendant component. It can be 
+    used for error handling, logging or to display the error to the user.</p>
+
+  <div id="wrapper">
+    <p>Whenever there is an error in a child component, the errorCaptured() function is called on the parent.</p>
+    <p>When the button inside the component is clicked, a method will run that tries to do changes to a $refs object
+      that does not exist.</p>
+    <p>This creates an error in the component that triggers 'errorCaptured' lifecycle hook in the parent,
+      and console message is displayed with information about the error</p>
+    <p id="error">Open the browser console to see the captured error details.</p>
+    
+    <div>
+      <hook-error-captured-comp></hook-error-captured-comp>
+    </div>
+  </div>
+
+  <p>
+    Information about the error can also be captured as arguments to the errorCaptured() function. They are:<br>
+    <ol>
+      <li>The error</li>
+      <li>The component that triggered the error</li>
+      <li>The error source type</li>
+    </ol>
+  </p>
+
+  <div id="wrapper">
+    <p>Whenever there is an error inside child component, the errorCaptured() function is called on the parent.</p>
+    <p id="error">Open the browser console to see the captured error details.</p>
+
+    <div>
+      <hook-error-captured-comp-2></hook-error-captured-comp-2>
+    </div>
+  </div>
+
+  <br><br>
+  <p>The renderTracked hook runs when a render function is set to track, monitor reactive component. 
+    The renderTracked hook usually runs when a reactive component is initialized.</p>
+
+  <p>The renderTriggered hook runs when such a tracked reactive component changes, and therefore triggers a new 
+    render, so that the screen gets updated with the latest changes.</p>
+
+  <p>A reactive component is a component that can change.</p>
+
+  <p>A render function is a function compiled by Vue that keeps track of reactive components. When a reactive 
+    component changes, the render function is triggered and re-renders the application to the screen</p>
+
+  <p><mark>The renderTracked and renderTriggered hooks are meant to be used only in Debugging, and is only 
+    available in App Development mode.</mark></p>
+
+  <br><br>
+  <p>Like the mounted and unmounted lifecycle hooks are used when a component is removed or added to the DOM.
+    <br>The activated and deactivated lifecycle hooks are used when a cached dynamic component is added 
+    or removed, but NOT from the DOM.</p>
+    
+  <p>The &lt;KeepAlive&gt; Tag will be used in the following 2 examples to cache the Dynamic component:</p>
+
+  <div id="wrapper">
+    <p>In this example for the 'activated' hook we check if the component is cached properly with &lt;KeepAlive&gt;.</p>
+    <p>If the component is cached properly with &lt;KeepAlive&gt; Tag, The 'mounted' hook should run once the first
+      time the component is included (must be added to the DOM the first time), and the 'activated' hook should
+      run every time the component is included (also the first time).</p>
+
+    <button @click="this.activeHookActivatedNotActivatedComp = !this.activeHookActivatedNotActivatedComp">
+      Include component
+    </button>
+
+    <div>
+      <KeepAlive>
+        <hook-activated-not-activated-comp v-if="activeHookActivatedNotActivatedComp">
+        </hook-activated-not-activated-comp>
+      </KeepAlive>
+    </div>
+  </div>
+
+  <p>In this second example, we use 'activated', 'deactivated', 'mounted' and 'unmounted' hooks:</p>
+    
+  <p>
+    <ol>
+      <li>The 'mounted' hook should run once the first time cached component is included (must be added to DOM first time)</li>
+      <li>The 'activated' hook should run every time the cached component is included (also the first time)</li>
+      <li>The 'deactivated' hook should run every time the cached component is removed</li>
+      <li>The 'unmounted' hook never runs for the cached component</li>
+    </ol>
+  </p>
+
+  <div id="wrapper">
+    <p>We check if the component is cached properly with &lt;KeepAlive&gt; Tag</p>
+
+    <button @click="this.activeHookActivatedNotActivatedComp2 = !this.activeHookActivatedNotActivatedComp2">
+      Include Component
+    </button>
+
+    <div>
+      <KeepAlive>
+        <hook-activated-not-activated-comp-2 v-if="activeHookActivatedNotActivatedComp2">
+        </hook-activated-not-activated-comp-2>
+      </KeepAlive>
+    </div>
+  </div>
+
+  <p>The 'serverPrefetch' hook is only called during server-side rendering (SSR) and has very advanced setup.</p>
+
+  <!-- 
+    ================================================================================
+  -->
+
+  <br><br><hr><br><h2>Vue Provide/Inject</h2>
+
 
 </template>
 
@@ -817,6 +1144,11 @@
     color: rgb(144, 12, 12);
   }
 
+  #error {
+    font-weight: bold ;
+    color: rgb(255, 0, 0);
+  }
+
   ul {
     width: 150px;
     list-style-type: none;
@@ -858,6 +1190,11 @@
 
   label:hover {
     cursor: pointer;
+  }
+
+  #pResult {
+    background-color: lightcoral;
+    display: inline-block;
   }
 
 </style>
