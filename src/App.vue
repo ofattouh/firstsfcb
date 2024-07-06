@@ -26,6 +26,13 @@
             favorite: false,
             url: 'img_cake.svg' }
         ],
+        foods2: [
+          { name: 'Pizza', imgUrl: 'img_pizza.svg' },
+          { name: 'Apple', imgUrl: 'img_apple.svg' },
+          { name: 'Cake', imgUrl: 'img_cake.svg' },
+          { name: 'Fish', imgUrl: 'img_fish.svg' },
+          { name: 'Rice', imgUrl: 'img_rice.svg' }
+        ],
         newItem: '',
         items: ['Buy apples','Make pizza','Mow the lawn'],
         toggleValue: true,
@@ -45,6 +52,7 @@
         activeHookUnmountedComp: true,
         activeHookActivatedNotActivatedComp: false,
         activeHookActivatedNotActivatedComp2: false,
+        activeProvideInjectFoodComp: 'provide-inject-food-kinds-comp',
       };
     },
     methods: {
@@ -153,6 +161,11 @@
     },
     updated() {
       console.log("Some component is updated!");
+    },
+    provide() {
+      return {
+        foods2: this.foods2
+      }
     },
     errorCaptured(error, compError, errorSrcType) {
       console.log("Custom Error Message: error is thrown from some component using errorCaptured Hook");
@@ -1095,6 +1108,39 @@
 
   <br><br><hr><br><h2>Vue Provide/Inject</h2>
 
+  <p>Inside large projects, with components inside components, it can be hard to use props to provide data from 
+    "App.vue" to sub-components because it requires props to be defined in every component data passes through.</p>
+
+  <p>If we use provide/inject instead of using props, we only need to define the provided data where it is 
+    provided, and only need to define the injected data where it is injected. Provide makes data available to 
+    other components and Inject is used to get the provided data. It as alternative to passing data using props.</p>
+
+  <p>In this example, the 'foods2' array is now provided in 'App.vue' so that it is available to be injected 
+    inside other components. We can include it inside 'ProvideInjectFoodKindsComp' component. With 'foods2' 
+    data injected inside 'ProvideInjectFoodKindsComp' component, we use data from App.vue to display 
+    different foods inside the 'ProvideInjectFoodKindsComp' component:</p>
+  
+  <div>
+    <p>Choose Food Component:</p>
+
+    <div @click="this.activeProvideInjectFoodComp = 'provide-inject-food-about-comp'" class="divBtn">
+      ProvideInjectFoodAboutComp Component
+    </div>
+
+    <div @click="this.activeProvideInjectFoodComp = 'provide-inject-food-kinds-comp'" class="divBtn">
+      ProvideInjectFoodKindsComp Component
+    </div>
+
+    <div id="divComp">
+      <component :is="activeProvideInjectFoodComp"></component>
+    </div>
+  </div>
+
+  <!-- 
+    ================================================================================
+  -->
+
+  <br><br><hr><br><h2>Vue Routing</h2>
 
 </template>
 
@@ -1195,6 +1241,33 @@
   #pResult {
     background-color: lightcoral;
     display: inline-block;
+  }
+
+  .divBtn {
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    background-color: white;
+    border: solid 2px #04AA6D;
+    border-radius: 10px;
+    font-family: Verdana,sans-serif;
+    color: black;
+    padding: 10px;
+    margin: 10px;
+  }
+
+  .divBtn:hover {
+    background-color: #04AA6D;
+    color: white;
+    cursor: pointer;
+  }
+
+  #divComp {
+    border: dashed black 1px;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+    width: 450px;
   }
 
 </style>

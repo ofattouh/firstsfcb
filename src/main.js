@@ -50,6 +50,8 @@ import HookErrorCapturedComp from './components/HookErrorCapturedComp.vue'
 import HookErrorCapturedComp2 from './components/HookErrorCapturedComp2.vue'
 import HookActivatedNotActivatedComp from './components/HookActivatedNotActivatedComp.vue'
 import HookActivatedNotActivatedComp2 from './components/HookActivatedNotActivatedComp2.vue'
+import ProvideInjectFoodAboutComp from './components/ProvideInjectFoodAboutComp.vue'
+import ProvideInjectFoodKindsComp from './components/ProvideInjectFoodKindsComp.vue'
 
 const app = createApp(App)
 
@@ -102,5 +104,7 @@ app.component('hook-error-captured-comp', HookErrorCapturedComp)
 app.component('hook-error-captured-comp-2', HookErrorCapturedComp2)
 app.component('hook-activated-not-activated-comp', HookActivatedNotActivatedComp)
 app.component('hook-activated-not-activated-comp-2', HookActivatedNotActivatedComp2)
+app.component('provide-inject-food-about-comp', ProvideInjectFoodAboutComp)
+app.component('provide-inject-food-kinds-comp', ProvideInjectFoodKindsComp)
 
 app.mount('#app')
