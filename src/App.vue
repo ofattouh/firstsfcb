@@ -53,6 +53,23 @@
         activeHookActivatedNotActivatedComp: false,
         activeHookActivatedNotActivatedComp2: false,
         activeProvideInjectFoodComp: 'provide-inject-food-kinds-comp',
+        activeDynamicComp: '',
+        inpVal: '',
+        inpValSubmitted: 'Not submitted yet',
+        likeFoods: [],
+        inpValSubmitted2: 'Not submitted yet',
+        carSelected: '',
+        inpValSubmitted3: 'Not submitted yet',
+        carsSelected2: [],
+        inpValSubmitted4: 'Not submitted yet',
+        fileInp: null,
+        inpValSubmitted5: 'Not submitted yet',
+        heightInp: null,
+        inpValSubmitted6: 'Not submitted yet',
+        colorInp: null,
+        inpValSubmitted7: 'Not submitted yet',
+        txtInp: null,
+        inpValSubmitted8: 'Not submitted yet'
       };
     },
     methods: {
@@ -74,6 +91,47 @@
       addItem() {
         this.items.push(this.newItem),
         this.newItem = '';
+      },
+      registerAnswer() {
+        if(this.inpVal) {
+          this.inpValSubmitted = this.inpVal;
+        }
+      },
+      registerAnswer2() {
+        this.inpValSubmitted2 = this.likeFoods;
+      },
+      registerAnswer3() {
+        if(this.carSelected) {
+          this.inpValSubmitted3 = this.carSelected;
+        }
+      },
+      registerAnswer4() {
+        if(this.carsSelected2) {
+          this.inpValSubmitted4 = this.carsSelected2;
+        }
+      },
+      registerAnswer5() {
+        if(this.fileInp) {
+          this.inpValSubmitted5 = this.fileInp;
+        }
+      },
+      updateVal(e) {
+        this.fileInp = e.target.value;
+      },
+      registerAnswer6() {
+        if(this.heightInp) {
+          this.inpValSubmitted6 = this.heightInp + ' cm';
+        }
+      },
+      registerAnswer7() {
+        if(this.colorInp) {
+          this.inpValSubmitted7 = this.colorInp;
+        }
+      },
+      registerAnswer8() {
+        if(this.txtInp) {
+          this.inpValSubmitted8 = this.txtInp;
+        }
       }
     },
     components: {
@@ -1142,6 +1200,286 @@
 
   <br><br><hr><br><h2>Vue Routing</h2>
 
+  <p>Routing is used to navigate the Vue application, and it happens on the client side (in the browser) without 
+    full page reload, which results in a faster user experience. With routing we can use the URL address to direct 
+    to specific place in our Vue application.</p>
+
+  <p>In this example: we navigate using Dynamic Components where we can switch between the components using buttons:</p>
+
+  <div id="wrapper">
+    <p>Choose what part of this page you want to see:</p>
+    <button class="dynamicCompBtn" @click="activeDynamicComp = 'dynamic-comp-animal-collection'">Dynamic Component: Animals</button>
+    <button class="dynamicCompBtn" @click="activeDynamicComp = 'dynamic-comp-food-items'">Dynamic Component: Food</button><br>
+
+    <div>
+      <component :is="activeDynamicComp"></component>
+    </div>
+  </div>
+
+  <p>From Dynamic Component to Routing:</p>
+
+  <p>Inside SPAs (Single Page Applications) with Vue, our application can only contains one *.html file. We cannot 
+    direct people to other *.html files to show them different content on our page. In the last Dynamic Component
+    example, we can navigate between different content on the page, but we cannot use URL address to the page 
+    so that we can go directly to the part about food, but with routing we can.</p>
+
+  <p>With routing set up, if you open the application with an extension to the URL address, like "/food-items" 
+    for example, you will come directly to the part with the food content.</p>
+
+  <p>To use the new router, we need to use the &lt;router-view&gt; component instead. In this example, We replace
+    the buttons with &lt;router-link&gt; components because that works better with the router:</p>
+
+  <div id="wrapper">
+    <p>Choose what part of this page to view by clicking on &lt;Router Links&gt; below OR by changing URL address 
+      to "/router-comp-animals" OR to "/router-comp-food" OR to "/" to navigate to the Home page:</p>
+
+    <router-link to="/router-comp-animals">Router Link: Animals Component</router-link>
+    <router-link to="/router-comp-food">Router Link: Food Component</router-link>
+    <router-link to="/">Router Link: Home Page</router-link>
+
+    <div>
+      <router-view></router-view>
+    </div>
+  </div>
+
+  <!-- 
+    ================================================================================
+  -->
+
+  <br><br><hr><br><h2>Vue Form Inputs</h2>
+
+  <p>Radio buttons that belong to the same choice must have the same name so that only one radio button can be chosen.</p>
+
+  <p>As with all inputs in Vue, we capture the radio button input value with v-model, but the value attribute 
+    must also be set explicitly on the &lt;input type="radio"&gt; tag:</p>
+
+  <div id="wrapper">
+    <p>Radio Buttons in Vue:</p>
+
+    <form @submit.prevent="registerAnswer">
+      <p>What is your favorite animal?</p>
+
+      <label class="labelFormInput">
+        <input type="radio" name="favAnimal" v-model="inpVal" value="Cat"> Cat
+      </label>
+
+      <label class="labelFormInput">
+        <input type="radio" name="favAnimal" v-model="inpVal" value="Dog"> Dog
+      </label>
+
+      <label class="labelFormInput">
+        <input type="radio" name="favAnimal" v-model="inpVal" value="Turtle"> Turtle
+      </label>
+
+      <label class="labelFormInput">
+        <input type="radio" name="favAnimal" v-model="inpVal" value="Moose"> Moose
+      </label>
+  
+      <button class="submitBtnFormInput" type="submit">Submit</button>
+    </form>
+
+    <div>
+      <p>Submitted answer:</p>
+      <p id="pAnswerFormInput">{{ inpValSubmitted }}</p>
+    </div>
+  </div>
+
+  <p>In checkbox inputs are connected to the same array with v-model, the values for the checked checkboxes 
+    are gathered in that array:</p>
+
+  <div id="wrapper">
+    <p>Checkbox Inputs in Vue:</p>
+
+    <form @submit.prevent="registerAnswer2">
+      <p>What kinds of food do you like?</p>
+
+      <label class="labelFormInput">
+        <input type="checkbox" v-model="likeFoods" value="Pizza"> Pizza
+      </label>
+
+      <label class="labelFormInput">
+        <input type="checkbox" v-model="likeFoods" value="Rice"> Rice
+      </label>
+
+      <label class="labelFormInput">
+        <input type="checkbox" v-model="likeFoods" value="Fish"> Fish
+      </label>
+
+      <label class="labelFormInput">
+        <input type="checkbox" v-model="likeFoods" value="Salad"> Salad
+      </label>
+
+      <button class="submitBtnFormInput" type="submit">Submit</button>
+    </form>
+
+    <div>
+      <p>Submitted answer:</p>
+      <p id="pAnswerFormInput">{{ inpValSubmitted2 }}</p>
+    </div>
+  </div>
+
+  <p>When using a drop-down list in Vue we need to connect the &lt;select&gt; tag with v-model, and give values 
+    to the &lt;option&gt; tags:</p>
+
+  <div id="wrapper">
+    <p>Drop-down List in Vue</p>
+
+    <form @submit.prevent="registerAnswer3">
+      <label class="labelFormInput2" for="cars">Choose a car:</label>
+
+      <select v-model="carSelected" id="cars">
+        <option disabled value="">Please select one</option>
+        <option>Volvo</option>
+        <option>Saab</option>
+        <option>Opel</option>
+        <option>Audi</option>
+      </select>
+
+      <br><br>
+      <input class="submitBtnFormInput" type="submit" value="Submit">
+    </form>
+
+    <div>
+      <p>Submitted answer:</p>
+      <p id="pAnswerFormInput">{{ inpValSubmitted3 }}</p>
+    </div>
+  </div>
+
+  <p>When using &lt;select multiple&gt; in Vue, we need to connect the &lt;select&gt; tag with v-model, 
+    and give values to the &lt;option&gt; tags:</p>
+
+  <div id="wrapper">
+    <p>Select Multiple in Vue:</p>
+    <p>Depending on your operating system, use the 'ctrl' or the 'command' key to select multiple options:</p>
+
+    <form @submit.prevent="registerAnswer4">
+      <label class="labelFormInput3" for="cars2">Choose one or more cars:</label><br>
+
+      <select class="selectFormInput" v-model="carsSelected2" id="cars2" multiple>
+        <option>Volvo</option>
+        <option>Saab</option>
+        <option>Opel</option>
+        <option>Audi</option>
+        <option>Kia</option>
+      </select>
+
+      <button class="submitBtnFormInput2" type="submit">Submit</button>
+    </form>
+
+    <div>
+      <p>Submitted answer:</p>
+      <p id="pAnswerFormInput">{{ inpValSubmitted4 }}</p>
+    </div>
+  </div>
+
+  <p>Read Only Form Inputs:</p>
+
+  <p>Using v-model on form inputs creates two-way binding, which means that if the Vue data instance changes, 
+    the input value attribute also changes. For read-only form inputs, like &lt;input type="file"&gt;, the value
+    attribute cannot be changed from the Vue data instance, and so we cannot use v-model.</p>
+
+  <p>For read-only form inputs, like &lt;input type="file"&gt;, we need to use @change to call a method 
+    that updates the Vue data instance:</p>
+
+  <div id="wrapper">
+    <p>Input Type File (Read Only input):</p>
+
+    <form @submit.prevent="registerAnswer5">
+      <label>
+        Choose a file: <input @change="updateVal" type="file">
+      </label>
+
+      <button class="submitBtnFormInput2" type="submit">Submit</button>
+    </form>
+
+    <div>
+      <p>Submitted answer:</p>
+      <p id="pAnswerFormInput">{{ inpValSubmitted5 }}</p>
+    </div>
+  </div>
+
+  <p>Other Form Inputs:</p>
+
+  <p>With the form inputs mentioned in the last examples, we had to provide a value for the value attribute, 
+    but with the form inputs mentioned below, the user provides the value:</p>
+
+  <div id="wrapper">
+    <ol>  
+      <li>&lt;input type="color"&gt;</li>
+      <li>&lt;input type="date"&gt;</li>
+      <li>&lt;input type="datetime-local"&gt;</li>
+      <li>&lt;input type="number"&gt;</li>
+      <li>&lt;input type="password"&gt;</li>
+      <li>&lt;input type="range"&gt;</li>
+      <li>&lt;input type="search"&gt;</li>
+      <li>&lt;input type="tel"&gt;</li>
+      <li>&lt;input type="text"&gt;</li>
+      <li>&lt;input type="time"&gt;</li>
+      <li>&lt;textarea&gt;</li>
+    </ol>
+  </div>
+
+  <p>Because the user already gives the value for these kinds of form inputs, all we need to do in Vue is to 
+    connect the input to a data property with v-model:</p>
+    
+  <p>In this example, we use &lt;input type="range"&gt;</p>
+
+  <div id="wrapper">
+    <form @submit.prevent="registerAnswer6">
+      <label>How tall are you?<br>
+        <input v-model="heightInp" type="range" min="50" max="235"> {{ heightInp }} cm
+      </label>
+
+      <button class="submitBtnFormInput2" type="submit">Submit</button>
+    </form>
+
+    <div>
+      <p>Submitted answer:</p>
+      <p id="pAnswerFormInput">{{ inpValSubmitted6 }}</p>
+    </div>
+  </div>
+
+  <p>In this example, we use &lt;input type="color"&gt;</p>
+
+  <div id="wrapper">
+    <form @submit.prevent="registerAnswer7">
+      <label>Choose a color: 
+        <input v-model="colorInp" type="color">
+      </label>
+
+      <button class="submitBtnFormInput2" type="submit">Submit</button>
+    </form>
+
+    <div>
+      <p>Submitted answer:</p>
+      <p id="pAnswerFormInput">{{ inpValSubmitted7 }}</p>
+    </div>
+  </div>
+
+  <p>In this example, we use &lt;textarea&gt;</p>
+
+  <div id="wrapper">
+    <form @submit.prevent="registerAnswer8">
+      <label>
+        <p>What do you think about our product?</p> 
+        <textarea v-model="txtInp" placeholder="Write something.." rows="5" cols="50"></textarea>
+      </label>
+
+      <button class="submitBtnFormInput3" type="submit">Submit</button>
+    </form>
+
+    <div>
+      <p>Submitted answer:</p>
+      <p id="pAnswerFormInput">{{ inpValSubmitted8 }}</p>
+    </div>
+  </div>
+
+  <!-- 
+    ================================================================================
+  -->
+
+  <br><br><hr><br><h2>Vue Animations</h2>
+
 </template>
 
 <style>
@@ -1170,7 +1508,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    width: 30%;
+    width: 40%;
   }
 
   #wrapper > div {
@@ -1268,6 +1606,72 @@
     padding: 20px;
     margin: 10px;
     width: 450px;
+  }
+
+  .dynamicCompBtn {
+    padding: 5px;
+    margin: 10px;
+  }
+
+  a {
+    display: inline-block;
+    background-color: black;
+    border: solid 1px black;
+    color: white;
+    padding: 5px;
+    margin: 10px;
+  }
+
+  a:hover,
+  /* Vue router adds active router link class: router-link-active */
+  a.router-link-active {
+    background-color: rgb(110, 79, 13);
+  }
+
+  .submitBtnFormInput {
+    margin: 10px;
+  }
+
+  .submitBtnFormInput2, .selectFormInput {
+    margin: 10px;
+    display: block;
+  }
+
+  .submitBtnFormInput3 {
+    margin: 10px 0;
+    display: block;
+  }
+
+  .selectFormInput {
+    width: 100px;
+    padding: 10px;
+  }
+
+  .labelFormInput {
+    display: block;
+    width: 80px;
+    padding: 5px;
+  }
+
+  .labelFormInput2 {
+    width: 90px;
+    padding: 5px;
+  }
+
+  .labelFormInput3 {
+    width: 180px;
+    padding: 5px;
+  }
+
+  .labelFormInput:hover, .labelFormInput2:hover, .labelFormInput3:hover {
+    cursor: pointer;
+    background-color: rgb(211, 244, 211);
+    border-radius: 5px;
+  }
+
+  #pAnswerFormInput {
+    background-color: lightgreen;
+    padding: 5px;
   }
 
 </style>

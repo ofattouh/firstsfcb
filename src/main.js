@@ -1,4 +1,6 @@
 import { createApp } from 'vue'
+import { createRouter, createWebHistory } from 'vue-router'
+
 import App from './App.vue'
 
 // Declare Components
@@ -52,6 +54,19 @@ import HookActivatedNotActivatedComp from './components/HookActivatedNotActivate
 import HookActivatedNotActivatedComp2 from './components/HookActivatedNotActivatedComp2.vue'
 import ProvideInjectFoodAboutComp from './components/ProvideInjectFoodAboutComp.vue'
 import ProvideInjectFoodKindsComp from './components/ProvideInjectFoodKindsComp.vue'
+import DynamicCompFoodItems from './components/DynamicCompFoodItems.vue'
+import DynamicCompAnimalCollection from './components/DynamicCompAnimalCollection.vue'
+import RouterCompFoodItems from './components/RouterCompFoodItems.vue'
+import RouterCompAnimalCollection from './components/RouterCompAnimalCollection.vue'
+
+// Create Router Components
+const router = createRouter({
+    history: createWebHistory(), // Maintain next and previous buttons Browser web History
+    routes: [
+        { path: '/router-comp-animals', component: RouterCompAnimalCollection },
+        { path: '/router-comp-food', component: RouterCompFoodItems },
+    ]
+});
 
 const app = createApp(App)
 
@@ -106,5 +121,8 @@ app.component('hook-activated-not-activated-comp', HookActivatedNotActivatedComp
 app.component('hook-activated-not-activated-comp-2', HookActivatedNotActivatedComp2)
 app.component('provide-inject-food-about-comp', ProvideInjectFoodAboutComp)
 app.component('provide-inject-food-kinds-comp', ProvideInjectFoodKindsComp)
+app.component('dynamic-comp-food-items', DynamicCompFoodItems)
+app.component('dynamic-comp-animal-collection', DynamicCompAnimalCollection)
 
+app.use(router);
 app.mount('#app')
