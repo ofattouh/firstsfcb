@@ -40,6 +40,7 @@
         toggleValue3: true,
         toggleValue4: true,
         toggleValue5: true,
+        toggleValue6: true,
         compNbr: 1,
         compName: 'dynamic-comp-one-persistent-include-exclude',
         activeHookBeforeCreateComp: false,
@@ -69,7 +70,29 @@
         colorInp: null,
         inpValSubmitted7: 'Not submitted yet',
         txtInp: null,
-        inpValSubmitted8: 'Not submitted yet'
+        inpValSubmitted8: 'Not submitted yet',
+        doesRotate: false,
+        doesMove: false,
+        exists: false,
+        exists2: false,
+        exists3: false,
+        exists4: false,
+        p1Exists: false,
+        p2Exists: false,
+        pVisible: false,
+        divVisible: false,
+        pVisible2: false,
+        divVisible2: false,
+        imgActive: 'pizza',
+        imgs: ['pizza', 'apple', 'cake', 'fish', 'rice'],
+        indexNbr: 0,
+        indexNbr2: 0,
+        products: ['Apple','Pizza','Rice'],
+        inpName: '',
+        dice: [],
+        dice2: [],
+        dice3: [],
+        keyNumber: 0,
       };
     },
     methods: {
@@ -132,6 +155,72 @@
         if(this.txtInp) {
           this.inpValSubmitted8 = this.txtInp;
         }
+      },
+      onAfterEnter() {
+        this.divVisible = true;
+      },
+      onEnterCancelled() {
+        this.divVisible2 = true;
+      },
+      newImg() {
+        this.indexNbr++;
+
+        if(this.indexNbr >= this.imgs.length) {
+          this.indexNbr = 0; // reset index
+        }
+
+        this.imgActive = this.imgs[this.indexNbr];
+      },
+      addEl() {
+        const el = this.inpName;
+        this.products.push(el);
+        this.inpName = null; // reset input
+      },
+      addDie() {
+        const newDie = Math.ceil(Math.random()*6);
+        this.dice.push(newDie);
+      },
+      removeDie() {
+        if(this.dice.length > 0){
+          // At position index, remove 1 item
+          this.dice.splice(Math.floor(Math.random()*this.dice.length), 1);
+        }
+      },
+      addDie2() {
+        const newDie2 = Math.ceil(Math.random()*6);
+        this.dice2.push(newDie2);
+      },
+      removeDie2() {
+        if(this.dice2.length > 0){
+          // At position index, remove 1 item
+          this.dice2.splice(Math.floor(Math.random()*this.dice2.length), 1);
+        }
+      },
+      addDie3() {
+        const newDie3 = {
+          dieNmbr: Math.ceil(Math.random()*6),
+          keyNmbr: this.keyNumber
+        };
+
+        // At position index, remove 0 items, add newDie3 items
+        this.dice3.splice(Math.floor(Math.random()*this.dice3.length),0,newDie3);
+        this.keyNumber++;
+      },
+      addDie10() {
+        for(let i=0; i<10; i++) {
+          this.addDie3();
+        }
+      },
+      compareFunc(a,b){
+        return a.dieNmbr - b.dieNmbr;
+      },
+      shuffleFunc(){
+        return Math.random()-0.5;
+      },
+      removeDie3(key) {
+        const pos = this.dice3.map(e => e.keyNmbr).indexOf(key);
+        // At index pos, remove 1 item
+        this.dice3.splice(pos, 1);
       }
     },
     components: {
@@ -196,6 +285,14 @@
           return 'dynamic-comp-three-persistent-include-exclude'
         }
       },
+      activeComp7() {
+        if(this.toggleValue6) {
+          return 'transition-dynamic-comp-one'
+        }
+        else {
+          return 'transition-dynamic-comp-two'
+        }
+      },
       btnHookBeforeUnmountCompText() {
         if(this.activeHookBeforeUnmountComp) {
           return 'Remove HookBeforeUnmountComp component'
@@ -211,6 +308,62 @@
         else {
           return 'Add HookUnmountedComp component'
         }
+      },
+      btnText() {
+        if(this.exists) {
+          return 'Remove p Tag';
+        }
+        else {
+          return 'Add p Tag';
+        }
+      },
+      btnText2() {
+        if(this.exists2) {
+          return 'Remove p Tag 2';
+        }
+        else {
+          return 'Add p Tag 2';
+        }
+      },
+      btnText3() {
+        if(this.exists3) {
+          return 'Remove p Tag 3';
+        }
+        else {
+          return 'Add p Tag 3';
+        }
+      },
+      btnText4() {
+        if(this.exists4) {
+          return 'Remove p Tag 4';
+        }
+        else {
+          return 'Add p Tag 4';
+        }
+      },
+      btn1Text() {
+        if(this.p1Exists) {
+          return 'Remove p Tag 5';
+        }
+        else {
+          return 'Add p Tag 5';
+        }
+      },
+      btn2Text() {
+        if(this.p2Exists) {
+          return 'Remove p Tag 6';
+        }
+        else {
+          return 'Add p Tag 6';
+        }
+      },
+      imgActive2() {
+        if(this.indexNbr2 >= this.imgs.length) {
+          // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+          this.indexNbr2 = 0; // reset index
+        }
+
+        return this.imgs[this.indexNbr2];
       }
     },
     // Vue Life Cycle Hooks
@@ -224,6 +377,15 @@
       return {
         foods2: this.foods2
       }
+    },
+    mounted() {
+      this.addDie();
+      this.addDie();
+      this.addDie();
+      this.addDie2();
+      this.addDie2();
+      this.addDie2();
+      this.addDie10();
     },
     errorCaptured(error, compError, errorSrcType) {
       console.log("Custom Error Message: error is thrown from some component using errorCaptured Hook");
@@ -1480,6 +1642,307 @@
 
   <br><br><hr><br><h2>Vue Animations</h2>
 
+  <p>The built-in &lt;Transition&gt; component in Vue helps us to do animations when elements are added or removed 
+    with v-if, v-show or with dynamic components. We can also useg plain CSS transitions and animations.</p>
+
+  <div id="wrapper">
+    <p>Basic CSS animation example</p>
+    <button @click="this.doesRotate = true">Rotate</button>
+    <div id="basicanim" :class="{ rotate: doesRotate }"></div>
+  </div><br>
+
+  <div id="wrapper">
+    <p>Basic CSS animation example 2</p>
+    <button @click="this.doesMove = true">Start</button>
+    <div id="basicanim2" :class="{ move: doesMove }"></div>
+  </div><br>
+
+  <p>The &lt;Transition&gt; Component</p>
+
+  <div id="wrapper">
+    <p>Add/Remove &lt;p&gt; Tag Example using Vue &lt;Built in Transition&gt; Component:</p>
+    <button @click="this.exists = !this.exists">{{btnText}}</button><br>
+    <p id="basicanim3" v-if="exists">Hello World!</p>
+  </div>
+
+  <p>We will wrap &lt;Transition&gt; component around &lt;p&gt; tag, to animate removal of &lt;p&gt; tag.
+    With &lt;Transition&gt; component, we get six different CSS classes to animate when elements are added 
+    or removed.</p>
+
+  <div id="wrapper">
+    <p>In this example, we use Vue classes: v-leave-from and v-leave-to to make fade out animation when
+      &lt;p&gt; tag is removed:</p>
+    <button @click="this.exists2 = !this.exists2">{{btnText2}}</button><br>
+
+    <Transition>
+      <p id="vueanim" v-if="exists2">Hello World!</p>
+    </Transition>
+  </div>
+
+  <p>The &lt;Transition&gt; Classes:</p>
+
+  <div id="wrapper">
+    <p>If an element inside &lt;Transition&gt; component is added, we can use these three classes to animate transition:</p>
+    
+    <ol>  
+      <li>v-enter-from</li>
+      <li>v-enter-active</li>
+      <li>v-enter-to</li>
+    </ol>
+  </div><br>
+
+  <div id="wrapper">
+    <p>If an element inside &lt;Transition&gt; component is removed, we can use these three classes to animate transition:</p>
+    
+    <ol>
+      <li>v-leave-from</li>
+      <li>v-leave-active</li>
+      <li>v-leave-to</li>
+    </ol>
+  </div>
+
+  <p><mark>There can only be one element on root level of &lt;Transition&gt; component</mark></p>
+
+  <div id="wrapper">
+    <p>In this example, we use above &lt;Transiation&gt; component classes for animation when &lt;p&gt; tag is added/removed:</p>
+    <button @click="this.exists3 = !this.exists3">{{btnText3}}</button><br>
+
+    <Transition>
+      <p id="vueanim2" v-if="exists3">Hello World!</p>
+    </Transition>
+  </div><br>
+
+  <div id="wrapper">
+    <p>In this example, We use v-enter-active and v-leave-active to set styling or animation during adding or 
+      during removal of an element:</p>
+    <button @click="this.exists4 = !this.exists4">{{btnText4}}</button><br>
+
+    <Transition>
+      <p id="vueanim3" v-if="exists4">Hello World!</p>
+    </Transition>
+  </div>
+
+  <p>For several &lt;Transition&gt; components, where at least one of &lt;Transition&gt; components needs to have
+    different animation, we use different names to tell them apart using the name prop, and that changes the 
+    name of the transition classes too, so that we can set different CSS animation rules for that component.</p>
+
+  <p><mark>If the transition name prop value is set to 'swirl', for &lt;Transition name="swirl"&gt; the 
+    Vue available classes will now start with 'swirl-' instead of 'v-':</mark></p>
+
+  <p>In this example, we use the name prop to give the &lt;Transition&gt; components different animations. 
+    One &lt;Transition&gt; component is not given a name, and is therefore given animations using Vue automatically
+    generated CSS classes starting with 'v-'. The other &lt;Transition&gt; component is given a name 'swirl' 
+    so that it can be given rules for animation with Vue automatically generated CSS classes starting with 'swirl-'.</p>
+
+  <div id="wrapper">
+    <p>In this example, second transition has name prop "swirl", so we can keep transitions apart with different class names.</p>
+    <button @click="this.p1Exists = !this.p1Exists">{{btn1Text}}</button><br>
+
+    <Transition>
+      <p v-if="p1Exists" id="p1">Hello World!</p>
+    </Transition>
+    <br>
+
+    <button @click="this.p2Exists = !this.p2Exists">{{btn2Text}}</button><br>
+
+    <Transition name="swirl">
+      <p v-if="p2Exists" id="p2">Hello World 2 (name: swirl)!</p>
+    </Transition>
+  </div>
+
+  <p>JavaScript Transition Hooks:</p>
+
+  <div id="wrapper">
+    <p>Every Vue Transition class corresponds to Javascript event that we can hook into to run some JavaScript code:</p>
+
+    <ol>
+      <li>v-enter-from =>	before-enter</li>
+      <li>v-enter-active => enter</li>
+      <li>v-enter-to => after-enter & enter-cancelled</li>
+      <li>v-leave-from => before-leave</li>
+      <li>v-leave-active => leave</li>
+      <li>v-leave-to => after-leave & leave-cancelled (v-show only)</li>
+    </ol>
+  </div><br>
+
+  <div id="wrapper">
+    <p>In this example, This code hooks into "after-enter" so that after the initial animation is done, 
+      a method runs that displays a red div.</p>
+
+    <button @click="pVisible=true">Create p-tag!</button><br>
+
+    <Transition @after-enter="onAfterEnter">
+      <p v-show="pVisible" id="p3">Hello World!</p>
+    </Transition><br>
+
+    <div id="vueanim4" v-show="divVisible">This appears after the "enter-active" phase of the transition.</div>
+  </div><br>
+
+  <div id="wrapper">
+    <p>In this example, we use the "Toggle" button to interrupt the enter transition phase of &lt;p&gt; element
+      so that the enter-cancelled event is triggered:</p>
+
+    <p>Click the toggle button again before enter animation is finished to trigger the 'enter-cancelled' event:</p>
+
+    <button @click="pVisible2=!pVisible2">Toggle</button><br>
+
+    <Transition @enter-cancelled="onEnterCancelled">
+      <p v-if="pVisible2" id="p4">Hello World!</p>
+    </Transition>
+    <br>
+
+    <div id="vueanim5" v-if="divVisible2">You interrupted the "enter-active" transition.</div>
+  </div><br>
+
+  <div id="wrapper">
+    <p>In this example, we animate an element when the page loads by using the appear prop on &lt;Transition&gt; component.</p>
+    <p>The 'appear' prop starts the animation when the &lt;p&gt; tag is rendered for first time as the page 
+      opens. Without the 'appear' prop, there would be no animation.</p>
+
+    <Transition appear>
+      <p id="p5">Hello World!</p>
+    </Transition>
+  </div>
+
+  <p>Transition Between Elements</p>
+  <p>The &lt;Transition&gt; component can also be used to switch between several elements, as long as we 
+    make sure that only one element is shown at a time with the use of &lt;v-if&gt; and &lt;v-else-if&gt;:</p>
+  
+  <div id="wrapper">
+    <p>In this example, click the button to get a new image:</p>
+    <p>The new image is added before the previous is removed. We will fix this in the next example with mode="out-in".</p>
+    
+    <button @click="newImg">Next image</button><br>
+
+    <Transition>
+      <img id="#vueanim6" src="/img_pizza.svg" v-if="imgActive === 'pizza'">
+      <img id="#vueanim6" src="/img_apple.svg" v-else-if="imgActive === 'apple'">
+      <img id="#vueanim6" src="/img_cake.svg" v-else-if="imgActive === 'cake'">
+      <img id="#vueanim6" src="/img_fish.svg" v-else-if="imgActive === 'fish'">
+      <img id="#vueanim6" src="/img_rice.svg" v-else-if="imgActive === 'rice'">
+    </Transition>
+  </div><br>
+
+  <div id="wrapper">
+    <p>In this example, click the button to get a new image:</p>
+
+    <p>With mode="out-in", the next image is not added until the current image is removed. Another difference 
+      from the previous example, is that here we use computed prop 'imgActive' instead of 'newImg' method.</p>
+    
+    <button @click="indexNbr2++">Next image</button><br>
+
+    <Transition mode="out-in">
+      <img id="#vueanim7" src="/img_pizza.svg" v-if="imgActive2 === 'pizza'">
+      <img id="#vueanim7" src="/img_apple.svg" v-else-if="imgActive2 === 'apple'">
+      <img id="#vueanim7" src="/img_cake.svg" v-else-if="imgActive2 === 'cake'">
+      <img id="#vueanim7" src="/img_fish.svg" v-else-if="imgActive2 === 'fish'">
+      <img id="#vueanim7" src="/img_rice.svg" v-else-if="imgActive2 === 'rice'">
+    </Transition>
+  </div><br>
+
+  <div id="wrapper2">
+    <p>Transition with Dynamic Components:</p>
+    <p>In this example, The Transition component wraps around the dynamic component so that the switching 
+      can be animated:</p>
+      
+    <button @click="toggleValue6 = !toggleValue6">Switch Dynamic Component</button>
+
+    <Transition mode="out-in">
+      <component :is="activeComp7"></component>
+    </Transition>
+  </div>
+
+  <!-- 
+    ================================================================================
+  -->
+
+  <br><br><hr><br><h2>Vue Animations with v-for</h2>
+
+  <p>The &lt;TransitionGroup&gt; component is used in Vue around elements created with v-for, to give these elements 
+    individual animations, Tags created with v-for inside the &lt;TransitionGroup&gt; component must be defined
+    with the key attribute. The &lt;TransitionGroup&gt; component is only rendered as HTML tag if we define it 
+    to be a specific tag by using the tag prop as: &lt;TransitionGroup tag="ol"&gt;&lt;TransitionGroup&gt;</p>
+
+  <div id="wrapper">
+    <p>In this example, new items will be animated by adding them to 'products' array:</p>
+    <p>New products are given animations using the &lt;TransitionGroup&gt; component.</p>
+
+    <input type="text" v-model="inpName"><br><br>
+    <button @click="addEl">Add Element</button>
+
+    <TransitionGroup tag="ol">
+      <li v-for="x in products" :key="x">
+        {{ x }}
+      </li>
+    </TransitionGroup>
+  </div><br>
+
+  <p>To animate how the rest of the list items fall into place when an element is removed, we can use Vue 
+    'v-move' class.</p>
+
+  <div id="wrapper">
+    <p>In this example, The 'v-move' class is not used when items fall into place when an element is removed:</p>
+    <p>New products are given animations using the &lt;TransitionGroup&gt; component.</p>
+    <p>When an item is removed, the items after the removed item suddenly jumps into their new positions however
+      To animate the rest of the items when an item is removed, we have to use Vue 'v-move' class.</p>
+
+    <button @click="addDie">Roll</button><br><br>
+    <button @click="removeDie">Remove random</button><br><br>
+
+    <TransitionGroup>
+      <div v-for="x in dice" :key="x" class="diceDiv" :style="{ backgroundColor: 'hsl('+x*40+',85%,85%)' }">
+        {{ x }}
+      </div>
+    </TransitionGroup>
+  </div><br>
+
+  <div id="wrapper">
+    <p>In this example, To give the 'v-move' class something to animate we have to set position: absolute; 
+      to the 'v-leave-active' class. When position: absolute; is set during the removal period, the removed item 
+      is still visible, but does not take up place so it should work.</p>
+
+    <p>When an item is removed inside the &lt;TransitionGroup&gt; component, other items are animated as they 
+      fall into their new positions using 'v-move' class</p>
+
+    <button @click="addDie2">Roll</button><br><br>
+    <button @click="removeDie2">Remove random</button><br><br>
+
+    <TransitionGroup>
+      <div v-for="x in dice2" :key="x" class="diceDiv2" :style="{ backgroundColor: 'hsl('+x*40+',85%,85%)' }">
+        {{ x }}
+      </div>
+    </TransitionGroup>
+  </div><br>
+
+  <div id="wrapper">
+    <p>In this example, we can Remove items by clicking on them, Sort the items and Add new items at a 
+      random place in the list.</p>
+    <p>All Items inside the &lt;TransitionGroup&gt; component are animated when they are created or removed.</p>
+
+    <button @click="addDie3">Roll</button>&nbsp;&nbsp;
+    <button @click="addDie10">Roll 10 dice</button><br><br>
+    <button @click="dice3.sort(compareFunc)">Sort</button>&nbsp;&nbsp;
+    <button @click="dice3.sort(shuffleFunc)">Shuffle</button><br><br>
+
+    <TransitionGroup>
+      <div 
+        v-for="x in dice3" 
+        :key="x.keyNmbr" 
+        class="diceDiv3" 
+        :style="{ backgroundColor: 'hsl('+x.dieNmbr*60+',85%,85%)' }"
+        @click="removeDie3(x.keyNmbr)">
+          {{ x.dieNmbr }}
+      </div>
+    </TransitionGroup>
+  </div>
+
+  <!-- 
+    ================================================================================
+  -->
+
+  <br><br><hr><br><h2>Vue </h2>
+
+
 </template>
 
 <style>
@@ -1517,6 +1980,20 @@
     margin: 10px;
     padding: 10px;
     background-color: lightgreen;
+  }
+
+  #wrapper2 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 40%;
+  }
+
+  #wrapper2 > div {
+    border: dashed black 1px;
+    flex-basis: 120px;
+    margin: 10px;
+    padding: 10px;
   }
 
   #wrapper > div:hover {
@@ -1672,6 +2149,248 @@
   #pAnswerFormInput {
     background-color: lightgreen;
     padding: 5px;
+  }
+
+  .rotate {
+    rotate: 160deg;
+    transition: rotate 1s;
+  }
+
+  div#basicanim {
+    border: solid black 2px;
+    background-color: lightcoral !important;
+    width: 60px;
+    height: 60px;
+    margin: 20px;
+  }
+
+  div#basicanim2{
+     border: solid black 2px;
+    background-color: lightcoral;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    margin: 20px;
+  }
+
+  .move {
+    animation: move .5s alternate 4 ease-in-out;
+  }
+
+  @keyframes move {
+    from {
+      translate: 0 0;
+    }
+
+    to {
+      translate: 70px 0;
+    }
+  }
+
+  div#basicanmi2 {
+    border: solid black 2px;
+    background-color: lightcoral;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    margin: 20px;
+  }
+
+  p#basicanim3 {
+    background-color: lightgreen;
+    display: inline-block;
+    padding: 10px;
+  }
+
+  .v-leave-from {
+    opacity: 1;
+  }
+
+  .v-leave-to {
+    opacity: 0;
+  }
+
+  p#vueanim {
+    background-color: lightgreen;
+    display: inline-block;
+    padding: 10px;
+    transition: opacity 0.5s;
+  }
+
+  p#vueanim2 {
+    background-color: lightgreen;
+    display: inline-block;
+    padding: 10px;
+    transition: all 0.5s;
+  }
+  
+  .v-enter-from {
+    opacity: 0;
+    translate: -100px 0;
+  }
+
+  .v-enter-to {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  .v-leave-from {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  .v-leave-to {
+    opacity: 0;
+    translate: 100px 0;
+  }
+
+  .v-enter-active {
+    background-color: lightgreen;
+    animation: added 1s;
+  }
+
+  /* OR we can use:
+    .v-enter-active {
+      animation: swirlAdded 1s;
+    }
+  */
+
+  .v-leave-active {
+    background-color: lightcoral;
+    animation: added 1s reverse;
+  }
+
+  /* OR we can use:
+    .v-leave-active {
+      animation: swirlAdded 1s reverse;
+    }
+  */
+
+  .v-move {
+    transition: all 0.7s;
+  }
+
+  @keyframes added {
+    from {
+      opacity: 0;
+      translate: -100px 0;
+    }
+
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+
+  p#vueanim3 {
+    display: inline-block;
+    padding: 10px;
+    border: dashed black 1px;
+  }
+
+  .swirl-enter-active {
+    animation: swirlAdded 2s;
+  }
+
+  .swirl-leave-active {
+    animation: swirlAdded 2s reverse;
+  }
+
+  @keyframes swirlAdded {
+    from {
+      opacity: 0;
+      rotate: 0;
+      scale: 0.1;
+    }
+
+    to {
+      opacity: 1;
+      rotate: 360deg;
+      scale: 1;
+    }
+  }
+
+  #p1, #p2, #p3, #p4 {
+    display: inline-block;
+    padding: 10px;
+    border: dashed black 1px;
+  }
+
+  #p2 {
+    background-color: lightcoral;
+  }
+
+  #p3, #p4 {
+    background-color: lightgreen;
+  }
+
+  #p5 {
+    display: inline-block;
+    padding: 10px;
+    border: dashed black 1px;
+    background-color: lightgreen;
+  }
+
+  div#vueanim4, div#vueanim5 {
+    background-color: lightcoral;
+  }
+
+  img#vueanim6, img#vueanim7 {
+    width: 100px;
+    margin: 20px;
+  }
+
+  img#vueanim6:hover, img#vueanim7:hover {
+    cursor: pointer;
+  }
+
+  .v-enter-active {
+    animation: slideIn 0.5s;
+  }
+
+  @keyframes slideIn {
+    from {
+      translate: -200px 0;
+      opacity: 0;
+    }
+
+    to {
+      translate: 0 0;
+      opacity: 1;
+    }
+  }
+
+  .v-leave-active {
+    animation: slideOut 0.5s;
+  }
+
+  @keyframes slideOut {
+    from {
+      translate: 0 0;
+      opacity: 1;
+    }
+
+    to {
+      translate: 200px 0;
+      opacity: 0;
+    }
+  }
+
+  .diceDiv, .diceDiv2, .diceDiv3 {
+    margin: 10px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    vertical-align: middle;
+    text-align: center;
+    border: solid black 1px;
+    border-radius: 5px;
+    display: inline-block;
+  }
+
+  .diceDiv3:hover {
+    cursor: pointer;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
 
 </style>

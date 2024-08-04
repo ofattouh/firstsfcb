@@ -58,6 +58,8 @@ import DynamicCompFoodItems from './components/DynamicCompFoodItems.vue'
 import DynamicCompAnimalCollection from './components/DynamicCompAnimalCollection.vue'
 import RouterCompFoodItems from './components/RouterCompFoodItems.vue'
 import RouterCompAnimalCollection from './components/RouterCompAnimalCollection.vue'
+import TransitionDynamicCompOne from './components/TransitionDynamicCompOne.vue'
+import TransitionDynamicCompTwo from './components/TransitionDynamicCompTwo.vue'
 
 // Create Router Components
 const router = createRouter({
@@ -123,6 +125,8 @@ app.component('provide-inject-food-about-comp', ProvideInjectFoodAboutComp)
 app.component('provide-inject-food-kinds-comp', ProvideInjectFoodKindsComp)
 app.component('dynamic-comp-food-items', DynamicCompFoodItems)
 app.component('dynamic-comp-animal-collection', DynamicCompAnimalCollection)
+app.component('transition-dynamic-comp-one', TransitionDynamicCompOne)
+app.component('transition-dynamic-comp-two', TransitionDynamicCompTwo)
 
 app.use(router);
 app.mount('#app')
