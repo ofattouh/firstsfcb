@@ -4,7 +4,7 @@
 # Run App
 =========
 >npm run dev          // Start Development Server, run Vite Build tool & Open: http://localhost:5173/
->npm run build        // Compile project without Vite tool and create public browser files (Stop Development Server manually)
+>npm run build        // Compile project and create public browser files (Stop Development Server manually)
 >npm run preview      // To open browser window that displays the built project from inside the dist folder
 
 >npm init vue@latest            // Create Vue 3 App
