@@ -619,7 +619,7 @@
     <p>The GlobalCompOne.vue component is used inside both App.vue and GlobalCompTwo.vue.</p>
     <global-comp-one /> <br>
     <global-comp-two />
-  </div>
+  </div><br>
 
   <div>
     <h3>Local Component</h3>
@@ -1940,8 +1940,83 @@
     ================================================================================
   -->
 
-  <br><br><hr><br><h2>Vue </h2>
+  <br><br><hr><br><h2>Vue Build Project</h2>
 
+  <p>When Vue project development is completed, it should move from "development mode" into "build" mode. 
+    The build command compiles our Vue project into .html, .js and .css files that are optimized to run directly 
+    in the browser and for others to access.</p>
+
+  <p>When making changes during development and saving them, Vite Build tool will update the page instantly 
+    which requires lot of resources. The build step comes after the development phase and when the page is 
+    ready to go public, We have to build the Vue project into files the browser understands without running 
+    Vite Build tool in development mode, this minimize server resource usage and improve performance.</p>
+
+  <p>When Vue project is built, Vite Build tool creates folder dist with all files needed to run your project on 
+    a public server, with files the browser understands: *.html, *.css and *.js instead of *.vue files used 
+    during development.</p>
+
+  <p><mark>To build/compile Vue application, stop the development server if it was running, and use: 
+    <b>npm run build</b></mark></p>
+
+  <p><mark>To open browser window that displays the built project from inside dist folder, use: 
+    <b>npm run preview</b></mark></p>
+
+  <!-- 
+    ================================================================================
+  -->
+
+  <br><br><hr><br><h2>Vue Composition API</h2>
+
+  <p><mark>1. The Composition API:</mark></p>
+
+  <p>The Composition API is an alternative way of writing Vue applications to the Options API. The logic is 
+    written using imported Vue functions instead of using Vue instance structure used on previous examples.</p>
+
+  <p>In the Composition API example below:</p>
+
+  <p>&#9679;On line 12, The setup attribute makes it easier to use Composition API. For example, by using 
+    the setup attribute, variables and functions can be used directly inside the &lt;template&gt;</p>
+
+  <p>&#9679;On line 13, ref and computed must be imported before they can be used. In previous examples of using 
+    Options API inside Vue instance, we did not need to import anything to declare reactive variables or to use
+    computed properties.</p>
+
+  <p>&#9679;On line 15, ref is used to declare 'typewriters' property as reactive with '10' as initial value.</p>
+
+  <p>&#9679;To declare the 'typewriters' property as reactive means that the line {{ typewriters }} in 
+    &lt;template&gt; will be re-rendered automatically to show the updated value when the 'typewriters' property
+    value is changed. With previous Option API Vue instance examples, data properties become reactive if they 
+    need to be when the application is built, they do not need to be declared explicitly as reactive.</p>
+
+  <p>&#9679;On line 17, The 'remove()' function would be declared under the Vue property 'methods' if this 
+    example was written in Options API.</p>
+
+  <p>&#9679;On line 23, The 'storageComment' computed property would be declared under the Vue property 
+    'computed' if this example was written in Options API.</p>
+
+  <div id="wrapper2">
+    <composition-api-comp-typewriters />
+  </div><br><br>
+
+  <p><mark>2. The Options API:</mark></p>
+
+  <p>Using Options API instead of Composition API has a recognizable structure and is easier to understand. The 
+    structure in the Options API has the data properties, methods and computed properties all placed in different 
+    parts of the Vue instance and are clearly separated.</p>
+
+  <p>Rewriting the previous example with Options API:</p>
+
+  <div id="wrapper2">
+    <options-api-comp-typeWriters />
+  </div>
+
+  <!-- 
+    ================================================================================
+  -->
+
+  <br><br><hr><br><h2>Vue HTTP Requests</h2>
+
+  
 
 </template>
 
@@ -1971,7 +2046,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    width: 40%;
+    width: 45%;
   }
 
   #wrapper > div {
@@ -1986,7 +2061,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    width: 40%;
+    width: 45%;
   }
 
   #wrapper2 > div {
@@ -2032,6 +2107,13 @@
     display: block; 
     margin: auto; 
     width: 60%;
+  }
+
+  #wrapper2 img {
+    display: block; 
+    margin: auto; 
+    width: 30%;
+    height: 30%;
   }
 
   footer > div {
