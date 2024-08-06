@@ -1,5 +1,6 @@
 <script>
   import LocalCompOne from './components/LocalCompOne.vue';
+  import axios from 'axios'
 
   export default {
     data() {
@@ -93,6 +94,14 @@
         dice2: [],
         dice3: [],
         keyNumber: 0,
+        data: null,
+        data2: null,
+        data3: null,
+        data4: null,
+        data5: null,
+        data6: null,
+        data7: null,
+        randomMammal: null,
       };
     },
     methods: {
@@ -221,6 +230,39 @@
         const pos = this.dice3.map(e => e.keyNmbr).indexOf(key);
         // At index pos, remove 1 item
         this.dice3.splice(pos, 1);
+      },
+      fetchData() {
+        const response = fetch("file.txt");
+        this.data = response;
+      },
+      async fetchData2() {
+        const response = await fetch("file.txt");
+        this.data2 = response;
+      },
+      async fetchData3() {
+        const response = await fetch("file.txt");
+        this.data3 = await response.text();
+      },
+      async fetchData4() {
+        const response = await fetch("bigLandMammals.json");
+        this.data4 = await response.json();
+      },
+      async fetchData5() {
+        const response = await fetch("bigLandMammals.json");
+        const data = await response.json();
+        const randIndex = Math.floor(Math.random() * data.results.length);
+        this.randomMammal = data.results[randIndex];
+      },
+      async fetchData6() {      
+        const response = await fetch("https://random-data-api.com/api/v2/users"); 
+        this.data5 = await response.json();
+      },
+      async fetchData7() {      
+        const response = await fetch("https://random-data-api.com/api/v2/users"); 
+        this.data6 = await response.json();
+      },
+      async fetchData8() {      
+        this.data7 = await axios.get("https://random-data-api.com/api/v2/users");
       }
     },
     components: {
@@ -2016,7 +2058,131 @@
 
   <br><br><hr><br><h2>Vue HTTP Requests</h2>
 
-  
+  <p>The client (browser) sends an HTTP request to the server, which handles the request and returns an HTTP 
+    response. The most common kinds of HTTP requests are POST, GET, PUT, PATCH, and DELETE.</p>
+
+  <p>To get data from the server in Vue we use Javascript fetch() method. When we do not specify the HTTP 
+    request method, the default request method 'GET' is what is used. The fetch() method expects a URL address 
+    as an argument.</p>
+
+  <div id="wrapper">
+    <p>In this example, we use fetch() method to send an HTTP GET request, and receive data as an HTTP response 
+      which is the text inside the local file: 'file.txt'</p>
+
+    <p>we only get "[object Promise]" as a result, because fetch() is promised-based method that returns promise
+      object. The first return the fetch() method gives is just an object which means that the HTTP request 
+      has been sent which is the "pending" state. When the fetch() method actually gets the data, the promise
+      is fulfilled and to wait for the response to be fulfilled, we need to use the await operator. When the 
+      await operator is used inside a method, this method must be declared with the async operator</p>
+
+    <p>The async operator tells the browser that the method is asynchronous, and it waits for something, 
+      and the browser can continue to do other tasks while it waits for the method to complete.</p>
+
+    <div>
+      <button @click="fetchData">Fetch Data (Promise)</button><br>
+      <p v-if="data">{{ data }}</p>
+    </div>
+  </div><br>
+
+  <div id="wrapper">
+    <p>In this example, we use async and await on the fetch() method to get the actual response:</p>
+    <p>we only get "[object response]" as result, because we need to use the text() method on the response.</p>
+
+    <div>
+      <button @click="fetchData2">Fetch Data (Response)</button><br>
+      <pre v-if="data2">{{ data2 }}</pre>
+    </div>
+  </div><br>
+
+  <div id="wrapper">
+    <p>Using text() method on response, we can get the text from inside the 'file.txt' file with the fetch() method.</p>
+    <p>Because the text() method is a promise based method, we need to use the await operator in front of it.</p>
+
+    <div>
+      <button @click="fetchData3">Fetch Data (Text)</button><br>
+      <p v-if="data3">{{ data3 }}</p>
+    </div>
+  </div><br>
+
+  <p>To fetch information from .json file, we use json() method to read the response from the HTTP request 
+    which returns a JavaScript object.</p>
+
+  <div id="wrapper">
+    <p>In this example, We use &lt;pre&gt; tag to show the JSON formatted text because it preserves spaces
+      and line breaks and is easier to read.</p>
+
+    <div>
+      <button @click="fetchData4">Fetch Data (JSON)</button><br>
+      <pre v-if="data4">{{ data4 }}</pre>
+    </div>
+  </div><br>
+
+  <div id="wrapper">
+    <p>In this example, because the result of the json() method is JavaScript object, we can show a random 
+      animal from the 'bigLandMammals.json' file.</p>
+    <p>Click the button more than once to see new animals picked randomly:</p>
+
+    <button @click="fetchData5">Fetch Data (JSON)</button><br>
+
+    <div v-if="randomMammal">
+      <p>{{ randomMammal.name }}</p>
+      <p>Max weight: {{ randomMammal.maxWeight }} kg</p>
+    </div>
+  </div><br>
+
+  <p>Fetch Data from API:</p>
+
+  <div id="wrapper">
+    <p>In this example, We click a button to fetch random user from API with HTTP request:</p>
+    
+    <p>Each click generates an object with a random user from <a href="https://random-data-api.com/"
+    target="_blank">https://random-data-api.com/</a></p>
+    <p>The robot avatars are lovingly delivered by <a href="http://Robohash.org" target="_blank">RoboHash</a></p>
+
+    <button @click="fetchData6">Fetch API Data (JSON)</button><br>
+    <pre v-if="data5">{{ data5 }}</pre>
+  </div><br>
+
+  <div id="wrapper">
+    <p>In this example, we show random username in &lt;pre&gt; tag, along with the job title and image when 
+      the button is clicked and we fetch data from API using HTTP request:</p>
+
+    <p>Each click generates an object with a random user from <a href="https://random-data-api.com/"
+    target="_blank">https://random-data-api.com/</a></p>
+    <p>The robot avatars are lovingly delivered by <a href="http://Robohash.org" target="_blank">RoboHash</a></p>
+
+    <button @click="fetchData7">Fetch API Data (JSON)</button>
+
+    <div v-if="data6" id="dataDiv">
+      <img :src="data6.avatar" alt="avatar">
+      <pre>{{ data6.first_name + " " + data6.last_name }}</pre>
+      <p>{{ data6.employment.title }}</p>
+    </div>
+  </div>
+
+  <p><mark>To make HTTP requests, we can also use <b>'axios'</b> JavaScript library:</mark></p>
+
+  <div id="wrapper">
+    <p>In this example, using 'axios' library and clicking a button, will fetch data from API using HTTP request:</p>
+
+    <p>Each click generates an object with a random user from <a href="https://random-data-api.com/"
+    target="_blank">https://random-data-api.com/</a></p>
+    <p>The robot avatars are lovingly delivered by <a href="http://Robohash.org" target="_blank">RoboHash</a></p>
+    
+    <button @click="fetchData8">Fetch API Data (Axios Library)</button>
+    
+    <div v-if="data7" id="dataDiv">
+      <img :src="data7.data.avatar" alt="avatar">
+      <pre>{{ data7.data.first_name + " " + data7.data.last_name }}</pre>
+      <p>{{ data7.data.employment.title }}</p>
+    </div>
+  </div>
+
+  <!-- 
+    ================================================================================
+  -->
+
+  <br><br><hr><br><h2>============================</h2>
 
 </template>
 
@@ -2474,5 +2640,23 @@
     cursor: pointer;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
+
+  #dataDiv {
+    width: 240px;
+    border: solid black 1px;
+    margin-top: 10px;
+    padding: 10px;
+  }
+
+  #dataDiv > img {
+    width: 100%;
+    height: 250px;
+  }
+
+  #dataDiv > pre {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
 
 </style>
